@@ -1,6 +1,6 @@
 # Basic NodeJS codebase
 
-This project include basic structure of a back-end which includes JsonWebToken Authentication, Logging, and jwt-express as middleware which allow\block public\protected requests. 
+This project includes basic structure of a back-end which includes JsonWebToken Authentication, Logging, and jwt-express as middleware which allow\block public\protected requests. 
 
 ## Getting Started
 

@@ -17,13 +17,13 @@ These instructions will get you a copy of the project up and running on your loc
 ### 1- Clone repository
 create a directory where you want to clone the project. Install and open ```git```  bash and enter following command: 
 
-    git clone https://github.com/A1M918/nesolBackend.git
+    git clone https://github.com/A1M918/Node_basic.git
 
 ### 2- Installing dependencies
 
 with the opened ```git```bash window in last step, enter following command:
     
-    cd nesolBackend 
+    cd Node_basic 
 then 
 
     npm i

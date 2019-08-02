@@ -1,0 +1,39 @@
+{
+  "name": "nesolbackend",
+  "version": "1.0.0",
+  "description": "This is backend of neSol.me",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "npx nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A1M918/nesolBackend.git"
+  },
+  "keywords": [
+    "nodejs",
+    "backend",
+    "MERN",
+    "passport"
+  ],
+  "author": "Aamir Mughal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/A1M918/nesolBackend/issues"
+  },
+  "homepage": "https://github.com/A1M918/nesolBackend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "rootpath": "^0.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

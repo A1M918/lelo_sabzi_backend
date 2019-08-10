@@ -8,9 +8,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-1. Git bash
-2. Node
-3. Integrated Development Environment (IDE)
+1. Git
+2. Node version 8+
+3. NPM or yarn
 
 ## Let's start !
 

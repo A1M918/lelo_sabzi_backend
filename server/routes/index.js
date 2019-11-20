@@ -1,22 +1,22 @@
 
-const jwt = require('jsonwebtoken');
-const secrete = require('./../../config').secrete;
+const express = require('express');
+// const app = express();
+const router = express.Router();
+const authRouter = require('./auth')
+const userRouter = require('./user')
+// const jwt = require('../helpers/jwt');
+const authHelper = require('../helpers/authHelper');
 
-function routes(router) {
-  return function (router) {
-    router.get('/', function (req, res) {
-      res.json({ message: "OK" });
-    });
 
-    router.post('/login', function (req, res) {
-      let signedJWT = jwt.sign({ message: 'ok'}, secrete);
-      res.json({ authToken: signedJWT });
-    });
-   
-    router.post('/user', function (req, res) {
-      res.json({ message: "OK" });
-    });
-  }
-}
+// router.all(jwt)
+router.get('/', function (req, res) {
+  res.json({ message: "OK" });
+});
 
-module.exports = routes;
+module.exports = (app)=>{
+  
+  app.use(authHelper.validateUserRoute())
+  app.use(authRouter)
+  app.use(userRouter)
+  return router;
+};

@@ -2,8 +2,10 @@ require('rootpath')();
 
 const express = require('express');
 const app = express();
+
+const mongo = require('mongo-models')
  
-const server = require('./server/server')(app);
+const server = require('./server/server')(app, mongo);
 
 const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
 

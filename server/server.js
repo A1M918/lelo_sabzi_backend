@@ -4,23 +4,28 @@ const jwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/globalErrorHandler');
 const logger = require('morgan');
 const helmet = require('helmet');
-const oAuth2Service = require('./authentication/OAuth2Service.js').getInstance();
+const config = require('../config')
+const routes = require('./routes');
 // morgan(':method :url :status :res[content-length] - :response-time ms');
-module.exports = (app) => {
+module.exports = async (app, db) => {
+
+  db.connect(config.dbConfig).then(()=>{
+    console.log("Connected to database");
+  }).catch(err=>{
+    console("Failed to connect to DB:", err);
+    process.exit();
+  });
+
+
   app.use(helmet());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(cors());
-  app.use(logger('dev')); // Morgan options to log every request
+  app.use(logger('common')); // Morgan options to log every request
   // use JWT auth to secure the api
-  app.use(jwt());
+  // app.use(jwt);
 
-  app.all('/oauth/token', oAuth2Service.obtainToken);
-  app.use(oAuth2Service.authenticateRequest);
+  app.use(routes(app))
 
-  const routes = require('./routes');
-  routes()(app); // passing `app` object into routes closure.
-  app.use(routes);
-  
   app.use(errorHandler);
 }

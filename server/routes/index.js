@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const authRouter = require('./auth')
 const userRouter = require('./user')
+const fylakasRouter = require('./fylakas')
 // const jwt = require('../helpers/jwt');
 const authHelper = require('../helpers/authHelper');
 
@@ -18,5 +19,6 @@ module.exports = (app)=>{
   app.use(authHelper.validateUserRoute())
   app.use(authRouter)
   app.use(userRouter)
+  app.use(fylakasRouter)
   return router;
 };

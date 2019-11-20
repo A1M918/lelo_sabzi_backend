@@ -12,12 +12,12 @@ const schema = Joi.object({
 })
 
 
-class TimeSheet extends MongoModels {
-    
+class Fylakas extends MongoModels {
+
 }
 
 
-Client.collectionName = 'time_sheet';
-Client.schema = schema;
+Fylakas.collectionName = 'time_sheet';
+Fylakas.schema = schema;
 
-module.exports = Client;
+module.exports = Fylakas;

@@ -16,7 +16,7 @@ mongo.connect(config.dbConfig, { useNewUrlParser: true, useUnifiedTopology: true
   console.log('Server listening on port ' + port);
 });
 }).catch(err => {
-  console("Failed to connect to DB:", err);
+  console.log("Failed to connect to DB:", err);
   process.exit();
 });
 

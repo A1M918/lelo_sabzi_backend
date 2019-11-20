@@ -6,10 +6,12 @@ const config = require('./config')
 
 const mongo = require('mongo-models')
 
+// const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
+const port = process.env.PORT ? process.env.PORT : 4000;
 
 mongo.connect(config.dbConfig, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log("Connected to database");
-  const server = require('./server/server')(app, mongo);
+  const server = require('./server/server')(app);
   app.listen(port, function () {
   console.log('Server listening on port ' + port);
 });
@@ -23,5 +25,4 @@ mongo.connect(config.dbConfig, { useNewUrlParser: true, useUnifiedTopology: true
 
 
 
-const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
 

@@ -4,18 +4,9 @@ const jwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/globalErrorHandler');
 const logger = require('morgan');
 const helmet = require('helmet');
-const config = require('../config')
 const routes = require('./routes');
 // morgan(':method :url :status :res[content-length] - :response-time ms');
-module.exports = async (app, db) => {
-
-  db.connect(config.dbConfig).then(()=>{
-    console.log("Connected to database");
-  }).catch(err=>{
-    console("Failed to connect to DB:", err);
-    process.exit();
-  });
-
+module.exports = async (app) => {
 
   app.use(helmet());
   app.use(bodyParser.urlencoded({ extended: false }));

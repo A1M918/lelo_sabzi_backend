@@ -1,7 +1,7 @@
 
 module.exports = {
   dbConfig: {
-    uri :"mongodb://localhost:27017/",
+    uri: "mongodb+srv://a1m918admin:ui0DEDMzCQ2BjPKB@cluster0-nubal.mongodb.net/fylakas?retryWrites=true&w=majority",
     db : "Dradus"
   },
   secrete: 'itsMyServerBro!',

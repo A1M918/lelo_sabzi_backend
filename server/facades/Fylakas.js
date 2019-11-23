@@ -1,7 +1,7 @@
 const Fylakas = require('../../models/Fylakas');
 
 class FylakasFacades {
-  static async logAction({data}) {
+  static async logAction(data) {
     const {
       user_id,
       user_name,
@@ -51,7 +51,8 @@ class FylakasFacades {
         channel_id,
         channel_name,
         "action": command,
-        "check_in": (new Date()).getTime(), // because we are updating user's check-in time, we need to parse the date from string
+        //"check_in": (new Date()).getTime(), // because we are updating user's check-in time, we need to parse the date from string
+        "check_in": await this.extractTimeFromCommand(text), // because we are updating user's check-in time, we need to parse the date from string
         "last_edited": (new Date()).getTime(),
         "deleted": false
       }
@@ -60,6 +61,10 @@ class FylakasFacades {
       const newRecord = await Fylakas.findAndUpdate(userToday, toUpdate);
       return newRecord;
     }
+
+  }
+
+  static async extractTimeFromCommand(userInput) { 
 
   }
 }

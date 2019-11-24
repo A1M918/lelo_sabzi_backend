@@ -11,6 +11,9 @@ module.exports = {
     '/registerUser',
     '/about',
     '/contact',
-    '/fylakas'
+    '/fylakas/in',
+    '/fylakas/out',
+    '/fylakas/bs',
+    '/fylakas/be',
   ]
 }

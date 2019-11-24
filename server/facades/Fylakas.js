@@ -95,19 +95,25 @@ class FylakasFacades {
     } else if (userToday) {
 
       if (!text) {
-        const toInsert = {
-          "user_actual_name": user.user_actual_name || "Dummy Name",
-          user_name,
-          user_id,
-          channel_id,
-          channel_name,
-          "action": command,
-          "log_time": (new Date()).getTime(),
-          "last_edited": "",
-          "deleted": false
+        const userToday = await Fylakas.findOutToday(user_id)
+        if (!userToday) {
+          const toInsert = {
+            "user_actual_name": user.user_actual_name || "Dummy Name",
+            user_name,
+            user_id,
+            channel_id,
+            channel_name,
+            "action": command,
+            "log_time": (new Date()).getTime(),
+            "last_edited": "",
+            "deleted": false
+          }
+          const newRecord = await Fylakas.insertOne(toInsert);
+          return newRecord;
+        } else if (userToday) {
+          throw new Error('You have already checked-out today. Please specify time in correct format. i.e /t 06:30PM');
         }
-        const newRecord = await Fylakas.insertOne(toInsert);
-        return newRecord;
+        
       }// throw new Error("You have already checked-in today, Please specify time to edit. i.e /in /t 09:00AM")
       else if (text) {
         if (!text.includes('/date') && text.includes('/t')) { // If user has specified the time. but not date. then we insert a new record

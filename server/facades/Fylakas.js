@@ -1,7 +1,7 @@
 const Fylakas = require('../../models/Fylakas');
 const http = require('axios')
 // http.defaults.post['Content-Type'] = 'text/html'
-const url = 'https://hooks.slack.com/services/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';
+const url = 'https://hooks.slack.com/services/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';
 const axios = http.create({})
 const reqConfig = {
   method: 'post',
@@ -214,6 +214,36 @@ class FylakasFacades {
       }
 
     }
+  }
+
+  static async logBreakStartEnd(data) {
+    const {
+      user_id,
+      user_name,
+      command,
+      text,
+      channel_name,
+      channel_id,
+      team_domain
+    } = data;
+    // const user = await Fylakas.find({});
+    const user = await Fylakas.findByUserId(user_id);
+    if (!user) throw new Error("User Not Found, Please contact HR.");
+
+      const toInsert = {
+        "user_actual_name": user.user_actual_name || "Dummy Name",
+        user_name,
+        user_id,
+        channel_id,
+        channel_name,
+        "action": command,
+        "log_time": (new Date()).getTime(),
+        "last_edited": "",
+        "deleted": false
+      }
+      const newRecord = await Fylakas.insertOne(toInsert);
+      axios.post(url, { text: `@${user_name} just ${command.includes('/bs')?'started' : 'ended'} his/her break!` }, reqConfig)
+      return newRecord;
   }
 
   static async extractDateAndTime(userInput) {

@@ -13,6 +13,12 @@ class FylakasController {
       .then(response => res.json({ data: response }))
       .catch(err => next(err));
   }
+
+  static async logBreakStartEndData(req, res, next){
+    await fylakasFacades.logBreakStartEnd(req.body)
+      .then(response => res.json({ data: response }))
+      .catch(err => next(err));
+  }
 }
 
 module.exports = FylakasController;

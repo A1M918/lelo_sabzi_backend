@@ -1,13 +1,9 @@
 const moment = require('moment')
 
-let text = "/t 09:25AM"
+let text = "/t 09:25PM"
 
 function extractTimeFromCommand(userInput) {
   const now = new Date();
-  
-  
-  console.log(userInput);
-  console.log(now);
   
   let data = ((userInput.split('/t'))[1]).trim()
   
@@ -16,12 +12,10 @@ function extractTimeFromCommand(userInput) {
   let minutes = dateSplit[1].slice(0,2)
   let dayTime = (dateSplit[1]).toString().slice(2)
   let parsedDate = now.setHours(hours,minutes,0,0)
-  console.log("split", `${hours}-${minutes}-${dayTime}`)
-  console.log("split", `${hours}:${minutes}:00`)
-  console.log("DateSplit ", parsedDate);
 
+  if (hours < 12 && dayTime.toLowerCase() == 'pm') hours = parseInt(hours) + 12
 
-
+  return parsedDate;
 
 }
 

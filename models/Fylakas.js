@@ -17,7 +17,7 @@ const schema = Joi.object({
 
 class Fylakas extends MongoModels {
     static async findByUserId(userId) {
-        return await this.find({ user_id: userId })
+        return await this.findOne({ user_id: userId })
     }
 
     static async findInToday(user_id) {

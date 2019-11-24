@@ -34,9 +34,9 @@ class Fylakas extends MongoModels {
             },
             "user_id": {
                 $eq: user_id
-            }
+            },
+            action: { $eq: '/in' }
         }
-        console.log("findInToday ======== ", JSON.stringify(query))
         return await this.findOne(query);
     }
 
@@ -47,7 +47,6 @@ class Fylakas extends MongoModels {
         dt = dt.setHours(0, 0, 0, 0)
         dl = dl.setHours(23, 59, 59)
         let regexp = new RegExp('\/in.');
-        console.log("REGEX", regexp)
         const query = {
             "log_time": {
                 "$gte": (new Date(dt)).getTime(),//ISODate(dt), use ISODate in case running query in MongoDB
@@ -57,12 +56,11 @@ class Fylakas extends MongoModels {
                 $eq: user_id
             },
             // "command": { $regex: regexp }
-            "command": { $eq: '\/in' }
+            action: { $eq: '/out' }
             //{
             //    $in: { $regex: /\/in./ }
             //}
         }
-        console.log("findOutToday ======== ", JSON.stringify(query))
         return await this.findOne(query);
     }
 

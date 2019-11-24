@@ -17,7 +17,6 @@ class Client extends MongoModels {
     }
 
     static async findByUserId(user) {
-        console.log("USER in Client", { _id: user._id.toString() })
         const aggregate = [
             {
                 $match: {

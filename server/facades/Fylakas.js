@@ -1,5 +1,12 @@
 const Fylakas = require('../../models/Fylakas');
-
+const http = require('axios')
+// http.defaults.post['Content-Type'] = 'text/html'
+const url = 'https://hooks.slack.com/services/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';
+const axios = http.create({})
+const reqConfig = {
+  method: 'post',
+  responseType : 'text'
+}
 class FylakasFacades {
   static async logCheckIn(data) {
     const {
@@ -39,6 +46,7 @@ class FylakasFacades {
         "deleted": false
       }
       const newRecord = await Fylakas.insertOne(toInsert);
+      axios.post(url, {text: `@${user_name} just checked-in !`}, reqConfig)
       return newRecord;
     } else if (userToday) {
       if (!text) throw new Error("You have already checked-in today, Please specify time to edit. i.e /in /t 09:00AM")
@@ -68,6 +76,8 @@ class FylakasFacades {
       }
 
       const newRecord = await Fylakas.findAndUpdate(userToday, toUpdate);
+      await axios.post(url, { text: `@${user_name} just edited his/her check-in time!` }, reqConfig)
+        
       return newRecord;
     }
 
@@ -109,6 +119,7 @@ class FylakasFacades {
             "deleted": false
           }
           const newRecord = await Fylakas.insertOne(toInsert);
+          axios.post(url, { text: `@${user_name} just checked-out !` }, reqConfig)
           return newRecord;
         } else if (userToday) {
           throw new Error('You have already checked-out today. Please specify time in correct format. i.e /t 06:30PM');
@@ -143,6 +154,7 @@ class FylakasFacades {
             }
 
             const newRecord = await Fylakas.insertOne(toInsert);
+            axios.post(url, { text: `@${user_name} just checked-out !` },reqConfig)
             return newRecord
           } else {
             await this.extractTimeFromCommand(text)
@@ -168,6 +180,7 @@ class FylakasFacades {
             }
 
             const newRecord = await Fylakas.findAndUpdate(userToday, toUpdate);
+            axios.post(url, { text: `@${user_name} just edited his/her check-out time!` }, reqConfig)
             return newRecord
           }
         } else {
@@ -195,6 +208,7 @@ class FylakasFacades {
           }
 
           const newRecord = await Fylakas.findAndUpdate(userToday, toUpdate);
+          axios.post(url, { text: `@${user_name} just edited his/her check-out time!` }, reqConfig)
           return newRecord;
         }
       }

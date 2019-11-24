@@ -1,7 +1,7 @@
 const Fylakas = require('../../models/Fylakas');
 const http = require('axios')
 // http.defaults.post['Content-Type'] = 'text/html'
-const url = 'https://hooks.slack.com/services/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';
+const url = 'https://hooks.slack.com/services/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';
 const axios = http.create({})
 const reqConfig = {
   method: 'post',

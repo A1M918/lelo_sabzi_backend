@@ -10,7 +10,7 @@ const schema = Joi.object({
     channel_id: Joi.string().required(),
     channel_name: Joi.string().required(),
     action: Joi.string().required(),
-    check_in: Joi.date().required(),
+    log_time: Joi.date().required(),
     last_edited: Joi.date().required().allow(null).allow(''),
     deleted: Joi.bool().required().default(false)
 })
@@ -28,7 +28,7 @@ class Fylakas extends MongoModels {
         dl = dl.setHours(23, 59, 59)
 
         const query = {
-            "check_in": {
+            "log_time": {
                 "$gte": (new Date(dt)).getTime(),//ISODate(dt), use ISODate in case running query in MongoDB
                 "$lt": (new Date(dl)).getTime(),//ISODate(dl)
             },
@@ -36,7 +36,33 @@ class Fylakas extends MongoModels {
                 $eq: user_id
             }
         }
-        console.log("findInToday ======== ", query)
+        console.log("findInToday ======== ", JSON.stringify(query))
+        return await this.findOne(query);
+    }
+
+    static async findOutToday(user_id) {
+
+        let dt = new Date()
+        let dl = new Date()
+        dt = dt.setHours(0, 0, 0, 0)
+        dl = dl.setHours(23, 59, 59)
+        let regexp = new RegExp('\/in.');
+        console.log("REGEX", regexp)
+        const query = {
+            "log_time": {
+                "$gte": (new Date(dt)).getTime(),//ISODate(dt), use ISODate in case running query in MongoDB
+                "$lt": (new Date(dl)).getTime(),//ISODate(dl)
+            },
+            "user_id": {
+                $eq: user_id
+            },
+            // "command": { $regex: regexp }
+            "command": { $eq: '\/in' }
+            //{
+            //    $in: { $regex: /\/in./ }
+            //}
+        }
+        console.log("findOutToday ======== ", JSON.stringify(query))
         return await this.findOne(query);
     }
 
@@ -56,10 +82,10 @@ class Fylakas extends MongoModels {
         //         dataObj[key] = data[key]
         //         updateData.push(dataObj)
         //     })
-        
+
         // console.log("QueryData", updateQuery)
         // console.log("Data", query)
-        return await this.updateOne({_id: query._id}, { $set: data }, { upsert: true, returnNewDocument: true})
+        return await this.updateOne({ _id: query._id }, { $set: data }, { upsert: true, returnNewDocument: true })
     }
 }
 

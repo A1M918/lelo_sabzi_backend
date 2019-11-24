@@ -15,5 +15,6 @@ module.exports = {
     '/fylakas/out',
     '/fylakas/bs',
     '/fylakas/be',
+    '/fylakas/hello',
   ]
 }

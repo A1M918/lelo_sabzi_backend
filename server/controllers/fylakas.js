@@ -19,6 +19,11 @@ class FylakasController {
       .then(response => res.json({ data: response }))
       .catch(err => next(err));
   }
+  static async registerMe(req, res, next){
+    await fylakasFacades.registerMe(req.body)
+      .then(response => res.json({ data: response }))
+      .catch(err => next(err));
+  }
 }
 
 module.exports = FylakasController;

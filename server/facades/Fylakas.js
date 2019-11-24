@@ -1,11 +1,11 @@
 const Fylakas = require('../../models/Fylakas');
 const http = require('axios')
 // http.defaults.post['Content-Type'] = 'text/html'
-const url = 'https://hooks.slack.com/services/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';
+const url = 'https://hooks.slack.com/services/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';
 const axios = http.create({})
 const reqConfig = {
   method: 'post',
-  responseType : 'text'
+  responseType: 'text'
 }
 class FylakasFacades {
   static async logCheckIn(data) {
@@ -46,7 +46,7 @@ class FylakasFacades {
         "deleted": false
       }
       const newRecord = await Fylakas.insertOne(toInsert);
-      axios.post(url, {text: `@${user_name} just checked-in !`}, reqConfig)
+      axios.post(url, { text: `@${user_name} just checked-in !` }, reqConfig)
       return newRecord;
     } else if (userToday) {
       if (!text) throw new Error("You have already checked-in today, Please specify time to edit. i.e /in /t 09:00AM")
@@ -77,7 +77,7 @@ class FylakasFacades {
 
       const newRecord = await Fylakas.findAndUpdate(userToday, toUpdate);
       await axios.post(url, { text: `@${user_name} just edited his/her check-in time!` }, reqConfig)
-        
+
       return newRecord;
     }
 
@@ -124,7 +124,7 @@ class FylakasFacades {
         } else if (userToday) {
           throw new Error('You have already checked-out today. Please specify time in correct format. i.e /t 06:30PM');
         }
-        
+
       }// throw new Error("You have already checked-in today, Please specify time to edit. i.e /in /t 09:00AM")
       else if (text) {
         if (!text.includes('/date') && text.includes('/t')) { // If user has specified the time. but not date. then we insert a new record
@@ -154,7 +154,7 @@ class FylakasFacades {
             }
 
             const newRecord = await Fylakas.insertOne(toInsert);
-            axios.post(url, { text: `@${user_name} just checked-out !` },reqConfig)
+            axios.post(url, { text: `@${user_name} just checked-out !` }, reqConfig)
             return newRecord
           } else {
             await this.extractTimeFromCommand(text)
@@ -230,20 +230,51 @@ class FylakasFacades {
     const user = await Fylakas.findByUserId(user_id);
     if (!user) throw new Error("User Not Found, Please contact HR.");
 
-      const toInsert = {
-        "user_actual_name": user.user_actual_name || "Dummy Name",
-        user_name,
-        user_id,
-        channel_id,
-        channel_name,
-        "action": command,
-        "log_time": (new Date()).getTime(),
-        "last_edited": "",
-        "deleted": false
-      }
-      const newRecord = await Fylakas.insertOne(toInsert);
-      axios.post(url, { text: `@${user_name} just ${command.includes('/bs')?'started' : 'ended'} his/her break!` }, reqConfig)
-      return newRecord;
+    const toInsert = {
+      "user_actual_name": user.user_actual_name || "Dummy Name",
+      user_name,
+      user_id,
+      channel_id,
+      channel_name,
+      "action": command,
+      "log_time": (new Date()).getTime(),
+      "last_edited": "",
+      "deleted": false
+    }
+    const newRecord = await Fylakas.insertOne(toInsert);
+    axios.post(url, { text: `@${user_name} just ${command.includes('/bs') ? 'started' : 'ended'} his/her break!` }, reqConfig)
+    return newRecord;
+  }
+
+  static async registerMe(data) {
+    const {
+      user_id,
+      user_name,
+      command,
+      text,
+      channel_name,
+      channel_id,
+      team_domain
+    } = data;
+    // const user = await Fylakas.find({});
+    const user = await Fylakas.findByUserId(user_id);
+    if (user) throw new Error("You are already registered!");
+    if (!text) throw new Error("Please specify your name to get registered! i.e /me M.Aamir");
+    const toInsert = {
+      "user_actual_name": text,
+      user_name,
+      user_id,
+      channel_id,
+      channel_name,
+      "action": command,
+      "log_time": (new Date()).getTime(),
+      "last_edited": "",
+      "deleted": false
+    }
+    const newRecord = await Fylakas.insertOne(toInsert);
+    axios.post(url, { text: `@${user_name} has registered successfully!` }, reqConfig)
+    return newRecord;
+
   }
 
   static async extractDateAndTime(userInput) {
